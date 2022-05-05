@@ -18,24 +18,9 @@ const NavLinks = [
 ]
 
 const Layout: NextPage<LayoutProps> = ({ title, children }) => {
-  const [darkMode, changeDarkMode] = useLocalStorage<boolean>('darkMode', false)
-  useEffect(() => {
-    console.log({ darkMode })
-  }, [darkMode])
-
   return (
     <>
-      <div
-        className={`
-        ${darkMode ? 'dark' : ''}
-        min-h-screen
-        bg-gray-800
-        bg-gradient-to-br
-        from-coolGray-800
-        to-green-600
-        pb-1
-        `}
-      >
+      <div className="min-h-screen bg-gradient-to-br from-brand-800 to-coolGray-900 pb-8">
         <Head>
           <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
           <meta charSet="utf-8" />
@@ -44,7 +29,6 @@ const Layout: NextPage<LayoutProps> = ({ title, children }) => {
         <Nav links={NavLinks} />
         <article className="h-full">{children}</article>
       </div>
-      <DarkToggle darkMode={darkMode} changeDarkMode={changeDarkMode} />
     </>
   )
 }
