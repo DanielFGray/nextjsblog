@@ -1,7 +1,7 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { getAllFilesFrontMatter } from '~/lib/mdx'
 import { BlogCard, BlogList } from '~/components/BlogCards'
-import { FrontMatter } from '~/pages/types'
+import { FrontMatter } from '~/types'
 
 interface Props {
   posts: FrontMatter[]
@@ -27,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  if (!params?.tag) throw new Error('missing tag param')
+  if (! params?.tag) throw new Error('missing tag param')
   if (params.tag instanceof Array) throw new Error('too many tags')
   const { tag } = params
   const posts = await getAllFilesFrontMatter()

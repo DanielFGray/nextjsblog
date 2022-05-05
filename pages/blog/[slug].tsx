@@ -10,8 +10,7 @@ import shikiNordTheme from 'shiki/themes/nord.json' assert { type: 'json' }
 import headings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
 import rehypeToc from '@jsdevtools/rehype-toc'
-import type { FrontMatter } from '~/pages/types'
-import { Comments } from '~/components/Comments'
+import type { FrontMatter } from '~/types'
 import { getStaticBlogPaths, mdxFromSlug, matter } from '~/lib/mdx'
 import { Tag } from '~/components/Tag'
 

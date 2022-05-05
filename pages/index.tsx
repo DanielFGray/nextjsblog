@@ -2,7 +2,7 @@ import type { NextPage, GetStaticProps } from 'next'
 import { BlogCard, BlogList } from '~/components/BlogCards'
 import { getAllFilesFrontMatter } from '~/lib/mdx'
 import Link from 'next/link'
-import type { FrontMatter } from './types'
+import type { FrontMatter } from '~/types'
 
 interface StaticProps {
   posts: FrontMatter[]
