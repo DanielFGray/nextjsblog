@@ -2,7 +2,7 @@ import React from 'react'
 import ago from 's-ago'
 import Link from 'next/link'
 import { Tag } from '~/components/Tag'
-import { FrontMatter } from '~/pages/types'
+import { FrontMatter } from '~/types'
 
 export const BlogList = ({ children }: { children: React.ReactNode }): JSX.Element => (
   <div className="mx-auto mt-16 max-w-7xl">
