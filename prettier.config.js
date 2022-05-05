@@ -3,7 +3,8 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'all',
   bracketSpacing: true,
-  jsxBracketSameLine: false,
+  // jsxBracketSameLine: false,
   printWidth: 100,
   arrowParens: 'avoid',
+  tailwindConfig: './tailwind.config.js',
 }

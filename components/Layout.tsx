@@ -1,15 +1,14 @@
-import type { NextPage } from 'next'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import { useLocalStorage } from 'lib/useLocalStorage'
-import { Nav } from './Nav'
-import DarkToggle from './DarkToggle'
+import { Nav } from '~/components/Nav'
+import type { NextPage } from 'next'
 
 const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? 'dfg.rocks'
 
-interface LayoutProps {
+type LayoutProps = {
   title?: string
-  children: ReactNode
+  gradient?: string
+  children: React.ReactNode
 }
 
 const NavLinks = [

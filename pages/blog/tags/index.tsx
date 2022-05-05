@@ -1,31 +1,34 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Layout from 'components/Layout'
-import { getAllFilesFrontMatter } from 'lib/mdx'
-import {descend} from 'lib/util'
+import { getAllFilesFrontMatter } from '~/lib/mdx'
 
-interface StaticProps {
-  tags: {name: string, count: number}[]
+interface Props {
+  tags: { name: string; count: number }[]
 }
 
-const BlogList: NextPage<StaticProps> = ({ tags }) => (
-  <Layout>
-    <pre>
-      {JSON.stringify(tags, null, 2)}
-    </pre>
-  </Layout>
+const BlogList: NextPage<Props> = ({ tags }) => (
+  <>
+    {tags.map(({ name, count }) => (
+      <div key={name}>
+        <h2 className="font-bold">{name}</h2>
+        <p>{count}</p>
+      </div>
+    ))}
+  </>
 )
 
 export default BlogList
 
-export const getStaticProps: GetStaticProps<StaticProps> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const posts = await getAllFilesFrontMatter()
-  const tags = Object.entries(posts.flatMap(x => x.tags)
-    .reduce((p: Record<string, number>, c: string) => {
-      p[c] = (p[c] ? p[c] : 0) + 1
-      return p
-    }, {}))
+  const tags = Object.entries(
+    posts
+      .flatMap(p => p.tags)
+      .reduce((acc, tag) => {
+        if (tag) acc[tag] = acc[tag] ? acc[tag] + 1 : 1
+        return acc
+      }, {} as { [key: string]: number }),
+  )
     .map(([name, count]) => ({ name, count }))
-    .sort(descend(x => x.count))
+    .sort((a, b) => b.count - a.count)
   return { props: { tags } }
 }
-

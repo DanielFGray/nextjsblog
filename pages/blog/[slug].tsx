@@ -1,69 +1,66 @@
+import * as React from 'react'
 import type { GetStaticProps, GetStaticPaths, NextPage } from 'next'
-import type { MdxRemote } from 'next-mdx-remote/types'
-import hydrate from 'next-mdx-remote/hydrate'
-import { getStaticBlogPaths, mdxToString, readMdxFile, SourceWithMatter } from 'lib/mdx'
 import Head from 'next/head'
 import Link from 'next/link'
 import ago from 's-ago'
-import Layout from 'components/Layout'
-import Tag from 'components/Tag'
+import { getMDXComponent } from 'mdx-bundler/client'
+import { bundleMDX } from 'mdx-bundler'
+import { remarkCodeHike } from '@code-hike/mdx'
+import shikiNordTheme from 'shiki/themes/nord.json' assert { type: 'json' }
+import headings from 'rehype-autolink-headings'
+import rehypeSlug from 'rehype-slug'
+import rehypeToc from '@jsdevtools/rehype-toc'
+import type { FrontMatter } from '~/pages/types'
+import { Comments } from '~/components/Comments'
+import { getStaticBlogPaths, mdxFromSlug, matter } from '~/lib/mdx'
+import { Tag } from '~/components/Tag'
 
-const components = {}
-const BlogPost: NextPage<SourceWithMatter> = ({ source, data }) => {
-  const content = hydrate(source, { components })
+type Props = { code: string; data: FrontMatter }
+
+const BlogPost: NextPage<Props> = ({ code, data }) => {
   const date = new Date(data.date)
+  const MDX = React.useMemo(() => getMDXComponent(code), [code])
   return (
-    <Layout>
+    <>
       <Head>
         <title>{data.title}</title>
         <meta property="og:title" key="title" content={data.title} />
         <meta name="description" content={data.excerpt} />
-        <meta name="keywords" content={data.tags.join(', ')} />
+        {data.tags && <meta name="keywords" content={data.tags.join(', ')} />}
       </Head>
-      <div className="max-w-4xl p-3 mx-auto md:p-8">
-        <p className="text-sm font-medium text-coolGray-400">
-          <Link href="#">
-            <a className="hover:underline">{data.category}</a>
-          </Link>
+      <div className="mx-auto max-w-5xl p-6 sm:p-8 text-brand-400">
+        <p className="text-sm font-medium">
+          {data.category}
         </p>
-        <p className="my-4 text-2xl font-semibold text-gray-50">{data.title}</p>
+        <p className="my-4 text-2xl font-extrabold text-brand-50">{data.title}</p>
         <div className="flex flex-col items-start">
           <div className="flex flex-wrap gap-x-1">
-            {data.tags.map(tag => (
+            {data.tags?.map(tag => (
               <Link key={tag} href={`/blog/tags/${tag}`}>
                 <a>
                   <Tag>{tag}</Tag>
                 </a>
               </Link>
-            ))}
+            )) || null}
           </div>
-          <div className="flex flex-wrap mt-2 text-sm text-coolGray-400 space-x-1">
-            {date && <time dateTime={date.toLocaleDateString()}>{ago(date)}</time>}
-            <span aria-hidden="true">·</span>
+          <div className="mt-2 flex flex-wrap space-x-1 text-sm">
+            {date && (
+              <>
+                <time dateTime={date.toLocaleDateString()}>{ago(date)}</time>
+                <span aria-hidden="true"> · </span>
+              </>
+            )}
             <span>{data.words} words</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true"> · </span>
             <span>{data.time}</span>
           </div>
         </div>
       </div>
 
-      <div
-        className={`
-          max-w-4xl
-          md:p-8
-          p-3
-          md:rounded-lg
-          md:shadow-lg
-          bg-gray-50
-          mx-auto
-          prose
-          dark:bg-gray-800
-          dark:prose-dark
-        `}
-      >
-        {content}
+      <div className="prose prose-lg mx-auto max-w-full bg-gray-50 p-8 shadow-lg dark:prose-invert dark:bg-gray-800 sm:prose-base lg:max-w-5xl lg:rounded-lg">
+        <MDX />
       </div>
-    </Layout>
+    </>
   )
 }
 
@@ -71,12 +68,39 @@ export default BlogPost
 
 export const getStaticProps: GetStaticProps = async ({
   params,
-}): Promise<{ props: SourceWithMatter }> => {
+}): Promise<{
+  props: Props
+}> => {
   if (! params?.slug) throw new Error('missing slug param')
   if (params.slug instanceof Array) throw new Error('too many slugs')
-  const file = await readMdxFile(params.slug)
-  const { data, source } = await mdxToString({ source: file, slug: params.slug, components })
-  return { props: { data, source } }
+  const { slug } = params
+  const source = await mdxFromSlug(slug)
+  const { data } = matter(source, slug)
+  const { code } = await bundleMDX({
+    source,
+    mdxOptions: options => {
+      options.remarkPlugins = [
+        ...(options.remarkPlugins ?? []),
+        [
+          remarkCodeHike,
+          {
+            theme: shikiNordTheme,
+            autoImport: true,
+            lineNumbers: false,
+          },
+        ],
+      ]
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        headings,
+        rehypeToc,
+        rehypeSlug
+      ]
+
+      return options
+    },
+  })
+  return { props: { code, data } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

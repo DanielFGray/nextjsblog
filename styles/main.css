@@ -1,5 +1,22 @@
 @tailwind base;
 @tailwind components;
-@import '../styles/theme.css';
 @tailwind utilities;
-@import '../styles/utilities.css';
+
+nav.toc {
+  @apply
+  border-b
+  border-gray-300
+  pb-2
+  dark:border-gray-600
+  sm:float-right
+  sm:max-w-[50%]
+  sm:border-l
+  sm:border-b-0
+  sm:pl-2
+  sm:pb-0
+  sm:ml-2;
+}
+
+.ch-frame-buttons {
+  display: none !important;
+}

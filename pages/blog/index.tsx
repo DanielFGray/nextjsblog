@@ -1,19 +1,21 @@
 import type { GetStaticProps, NextPage } from 'next'
-import { getAllFilesFrontMatter } from 'lib/mdx'
-import Layout from 'components/Layout'
-import { BlogList, BlogCard } from 'components/BlogCards'
+import { getAllFilesFrontMatter } from '~/lib/mdx'
+import { BlogList, BlogCard } from '~/components/BlogCards'
+import { FrontMatter } from '~/pages/types'
 
 interface StaticProps {
   posts: FrontMatter[]
 }
 
-const TagList: NextPage<StaticProps> = ({ posts }) => (
-  <Layout>
+const TagList: NextPage<StaticProps> = ({ posts }) => {
+  return (
     <BlogList>
-      {posts.map(post => <BlogCard key={post.slug} post={post} />)}
+      {posts.map(post => (
+        <BlogCard key={post.slug} post={post} />
+      ))}
     </BlogList>
-  </Layout>
-)
+  )
+}
 
 export default TagList
 
