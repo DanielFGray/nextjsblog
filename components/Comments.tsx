@@ -20,6 +20,10 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
   const newcomment = useCreateComment()
   const logout = useLogout()
   const signin = useSignIn()
+  const setReplyWithFocus = useCallback(id => {
+    formref.current?.focus()
+    setReplyId(id)
+  }, [])
   const deleteCommentWithPrompt = useCallback(id => {
     if (confirm('Are you sure you want to delete your comment?')) {
       deleteComment.mutate(id)
@@ -147,10 +151,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
             <CommentCard
               key={c.comment_id}
               deleteComment={deleteCommentWithPrompt}
-              setReplyId={id => {
-                formref.current?.focus()
-                setReplyId(id)
-              }}
+              setReplyId={setReplyWithFocus}
               session={session}
               comment={c}
             />
