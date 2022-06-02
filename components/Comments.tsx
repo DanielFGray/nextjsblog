@@ -26,7 +26,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
         Comments
       </h2>
       {(() => {
-        if (! session) {
+        if (!session) {
           return (
             <div className="flex flex-row justify-center gap-2">
               {providers.map(({ provider }) => (
@@ -54,7 +54,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
                 const formData = new FormData(ev.currentTarget)
                 const values = Object.fromEntries(formData.entries())
                 if (
-                  ! (
+                  !(
                     values.comment &&
                     typeof values.comment === 'string' &&
                     slug &&
@@ -131,7 +131,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
           if (comments === undefined) {
             return <li className="italic">Loading...</li>
           }
-          if (! (comments instanceof Array)) {
+          if (!(comments instanceof Array)) {
             console.log('comments are not an array: ', comments)
             return <li className="italic">There was an error fetching comments</li>
           }

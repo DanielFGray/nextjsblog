@@ -3,6 +3,17 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import type { UserCredentials, Session } from '@supabase/supabase-js'
 
+export type Comment = Readonly<{
+  comment_id: number
+  user: {
+    username: string
+    user_id: string
+  }
+  body: string
+  created_at: string
+  children: ReadonlyArray<Comment>
+}>
+
 const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNscmVkdndpb21tbmx0dHhhZWdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTEwNzgzNjYsImV4cCI6MTk2NjY1NDM2Nn0.hrXY1p-Ysa5q3lPxoUwtKfnXDLZMyx1rreUYtFoBiU0'
 const SUPABASE_URL = 'https://slredvwiommnlttxaegc.supabase.co'
@@ -76,17 +87,6 @@ export function useCommentStats() {
     },
   )
 }
-
-export type Comment = Readonly<{
-  comment_id: number
-  user: {
-    username: string
-    avatar_url: string | undefined | null
-  }
-  body: string
-  created_at: string
-  children: ReadonlyArray<Comment>
-}>
 
 export function useCommentFetcher({ slug }: { slug: string }) {
   const queryClient = useQueryClient()
