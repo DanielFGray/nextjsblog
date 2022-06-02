@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import React from 'react'
-import '../styles/main.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import '~/styles/main.css'
 import "@code-hike/mdx/dist/index.css"
 import Layout from '~/components/Layout'
 

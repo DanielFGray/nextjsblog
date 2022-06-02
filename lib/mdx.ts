@@ -4,7 +4,7 @@ import { globby } from 'globby'
 import { descend } from './util'
 import grayMatter from 'gray-matter'
 import readingTime from 'reading-time'
-import type { FrontMatter } from '~/pages/types'
+import type { FrontMatter } from '~/types'
 
 export type SourceWithMatter = {
   code: string
