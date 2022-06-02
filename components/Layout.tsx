@@ -19,7 +19,7 @@ const NavLinks = [
 const Layout: NextPage<LayoutProps> = ({ title, children }) => {
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-brand-800 to-coolGray-900 pb-8">
+      <div className="min-h-screen bg-gradient-to-br from-brand-800 to-gray-900 pb-8">
         <Head>
           <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
           <meta charSet="utf-8" />
