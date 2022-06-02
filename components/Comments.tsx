@@ -185,12 +185,14 @@ export function CommentCard({
                 aria-hidden="true"
               />
             </button>
-            <button onClick={() => deleteComment(comment_id)}>
-              <TrashIcon
-                className="h-4 w-4 text-gray-400 hover:text-red-600 dark:hover:text-red-400"
-                aria-hidden="true"
-              />
-            </button>
+            {session && session.user?.id === user.user_id && (
+              <button onClick={() => deleteComment(comment_id)}>
+                <TrashIcon
+                  className="h-4 w-4 text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                  aria-hidden="true"
+                />
+              </button>
+            )}
           </div>
         )}
       </div>
