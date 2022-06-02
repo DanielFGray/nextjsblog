@@ -50,7 +50,7 @@ const BlogPost: NextPage<Props> = ({ code, data }) => {
           <div className="mt-2 flex flex-wrap space-x-1 text-sm">
             {date && (
               <>
-                <time dateTime={date.toLocaleDateString()}>{ago(date)}</time>
+                <time dateTime={date.toLocaleDateString()}><a title={date.toLocaleString()}>{ago(date)}</a></time>
                 <span aria-hidden="true"> · </span>
               </>
             )}
