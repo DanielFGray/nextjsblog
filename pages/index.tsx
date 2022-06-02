@@ -3,16 +3,18 @@ import { BlogCard, BlogList } from '~/components/BlogCards'
 import { getAllFilesFrontMatter } from '~/lib/mdx'
 import Link from 'next/link'
 import type { FrontMatter } from '~/types'
+import { useCommentStats } from '~/lib/comments'
 
 interface StaticProps {
   posts: FrontMatter[]
 }
 
 const Home: NextPage<StaticProps> = ({ posts }) => {
+  const { data: stats } = useCommentStats()
   return (
     <BlogList>
       {posts.map(post => (
-        <BlogCard key={post.slug} post={post} />
+        <BlogCard key={post.slug} post={post} commentCount={stats ? stats[post.slug] : null} />
       ))}
       <div className="flex flex-col overflow-hidden shadow-lg">
         <Link href="/blog">

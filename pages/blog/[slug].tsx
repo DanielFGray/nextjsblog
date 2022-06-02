@@ -13,12 +13,17 @@ import rehypeToc from '@jsdevtools/rehype-toc'
 import type { FrontMatter } from '~/types'
 import { getStaticBlogPaths, mdxFromSlug, matter } from '~/lib/mdx'
 import { Tag } from '~/components/Tag'
+import { Comments } from '~/components/Comments'
+import { useCommentFetcher, useCommentStats } from '~/lib/comments'
 
 type Props = { code: string; data: FrontMatter }
 
 const BlogPost: NextPage<Props> = ({ code, data }) => {
   const date = new Date(data.date)
   const MDX = React.useMemo(() => getMDXComponent(code), [code])
+  const { data: comments } = useCommentFetcher({ slug: data.slug })
+  const { data: stats } = useCommentStats()
+  const commentCount = stats?.[data.slug]
   return (
     <>
       <Head>
@@ -52,6 +57,18 @@ const BlogPost: NextPage<Props> = ({ code, data }) => {
             <span>{data.words} words</span>
             <span aria-hidden="true"> · </span>
             <span>{data.time}</span>
+            {commentCount && (
+              <>
+                <span aria-hidden="true"> · </span>
+                <span>
+                  <Link href="#comment-section">
+                    <a className="underline hover:no-underline">
+                      {`${commentCount} comment${commentCount === '1' ? '' : 's'}`}
+                    </a>
+                  </Link>
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -59,6 +76,8 @@ const BlogPost: NextPage<Props> = ({ code, data }) => {
       <div className="prose prose-lg mx-auto max-w-full bg-gray-50 p-8 shadow-lg dark:prose-invert dark:bg-gray-800 sm:prose-base lg:max-w-5xl lg:rounded-lg">
         <MDX />
       </div>
+
+      <Comments comments={comments} />
     </>
   )
 }

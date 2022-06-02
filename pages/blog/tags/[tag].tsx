@@ -2,16 +2,18 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { getAllFilesFrontMatter } from '~/lib/mdx'
 import { BlogCard, BlogList } from '~/components/BlogCards'
 import { FrontMatter } from '~/types'
+import { useCommentStats } from '~/lib/comments'
 
 interface Props {
   posts: FrontMatter[]
 }
 
 const TagList: NextPage<Props> = ({ posts }) => {
+  const { data: stats } = useCommentStats()
   return (
     <BlogList>
       {posts.map(post => (
-        <BlogCard key={post.slug} post={post} />
+        <BlogCard key={post.slug} post={post} commentCount={stats ? stats[post.slug] : null} />
       ))}
     </BlogList>
   )

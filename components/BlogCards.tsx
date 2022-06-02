@@ -29,7 +29,13 @@ export const Card = ({
   </div>
 )
 
-export function BlogCard({ post }: { post: FrontMatter }): React.ReactElement {
+export function BlogCard({
+  post,
+  commentCount,
+}: {
+  post: FrontMatter
+  commentCount: null | undefined | string
+}): React.ReactElement {
   const date = post.date ? new Date(post.updated || post.date) : null
   return (
     <Card
@@ -75,6 +81,18 @@ export function BlogCard({ post }: { post: FrontMatter }): React.ReactElement {
           <span>{post.words} words</span>
           <span aria-hidden="true"> · </span>
           <span>{post.time}</span>
+          {commentCount && (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>
+                <Link href={`/blog/${post.slug}#comment-section`}>
+                  <a className="underline hover:no-underline">
+                    {`${commentCount} comment${commentCount === '1' ? '' : 's'}`}
+                  </a>
+                </Link>
+              </span>
+            </>
+          )}
         </div>
       </div>
     </Card>
