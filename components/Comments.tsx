@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import ago from 's-ago'
 import { useRouter } from 'next/router'
 import { useSignIn, useAuth, useCreateComment, useLogout, useDeleteComment } from '~/lib/comments'
@@ -20,6 +20,11 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
   const newcomment = useCreateComment()
   const logout = useLogout()
   const signin = useSignIn()
+  const deleteCommentWithPrompt = useCallback(id => {
+    if (confirm('Are you sure you want to delete your comment?')) {
+      deleteComment.mutate(id)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="mx-auto mt-4 flex max-w-5xl flex-col gap-2 bg-gray-50 p-4 text-gray-900 shadow-lg dark:bg-gray-800 dark:text-gray-200 md:rounded lg:max-w-5xl lg:rounded-lg">
       <h2 id="comment-section" className="text-center text-xl font-bold">
@@ -141,7 +146,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
           return comments.map(c => (
             <CommentCard
               key={c.comment_id}
-              deleteComment={deleteComment.mutate}
+              deleteComment={deleteCommentWithPrompt}
               setReplyId={id => {
                 formref.current?.focus()
                 setReplyId(id)
