@@ -9,6 +9,15 @@ module.exports = {
         gray: colors.neutral,
         brand: colors.slate,
       },
+      typography: {
+        quoteless: {
+          css: {
+            'blockquote': { fontStyle: 'normal' },
+            'blockquote p:first-of-type::before': { content: 'none' },
+            'blockquote p:first-of-type::after': { content: 'none' },
+          },
+        },
+      },
     },
   },
   plugins: [

@@ -73,7 +73,7 @@ const BlogPost: NextPage<Props> = ({ code, data }) => {
         </div>
       </div>
 
-      <div className="prose prose-lg mx-auto max-w-full bg-gray-50 p-8 shadow-lg dark:prose-invert dark:bg-gray-800 sm:prose-base lg:max-w-5xl lg:rounded-lg">
+      <div className="prose prose-lg prose-quoteless mx-auto max-w-full bg-gray-50 p-8 shadow-lg dark:prose-invert dark:bg-gray-800 sm:prose-base lg:max-w-5xl lg:rounded-lg">
         <MDX />
       </div>
 
