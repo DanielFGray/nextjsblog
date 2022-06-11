@@ -165,13 +165,13 @@ export function CommentCard({
 }) {
   const date = new Date(created_at)
   return (
-    <li key={comment_id} id={`comment_${comment_id}`} className={`pt-2 ${depth > 0 ? 'ml-2' : ''}`}>
+    <li key={comment_id} id={`comment_${comment_id}`} className={`pt-2 ${depth > 0 ? 'ml-2' : ''} ${comment_id < 0 ? 'opacity-50' : ''}`}>
       <div className="flex flex-row gap-2">
         <span className="font-bold dark:text-gray-200">{user.username}</span>
         <time className="cursor-help text-gray-600 dark:text-gray-400">
           <a title={date.toLocaleString()}>{ago(date)}</a>
         </time>
-        {session && (
+        {session && comment_id > 0 && (
           <div className="ml-auto flex flex-row gap-2">
             <button onClick={() => setReplyId(comment_id)}>
               <ReplyIcon

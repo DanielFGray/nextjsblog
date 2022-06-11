@@ -110,12 +110,29 @@ export function useCommentFetcher({ slug }: { slug: string }) {
 }
 
 export function useCreateComment() {
+  const queryClient = useQueryClient()
   return useMutation(
     'new_comment',
     async (values: { slug: string; body: string; parent_id: number | null }) => {
       const { data, error } = await supabase.from('comments').insert(values)
       if (error) throw error
       return data
+    },
+    {
+      onMutate(variables) {
+        const prevState = queryClient.getQueryData<Comment[]>(['comments', variables.slug])
+        const session = supabase.auth.session()?.user
+        if (! session) throw new Error('not logged in!')
+        const user = { user_id: session.id, username: session.user_metadata.preferred_username, date: new Date() }
+        const newState: Comment = { comment_id: -1, body: variables.body, user, children: [], created_at: new Date().toUTCString() }
+        console.log(newState, prevState)
+        queryClient.setQueryData<Comment[]>(['comments', variables.slug], old => [newState].concat(old ? old : []))
+        return { prevState }
+      },
+      onError(err, newState, context) {
+        console.log(err)
+        queryClient.setQueryData(['comments', newState.slug], context?.prevState)
+      },
     },
   )
 }
