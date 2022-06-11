@@ -4,6 +4,7 @@ import { globby } from 'globby'
 import { descend } from './util'
 import grayMatter from 'gray-matter'
 import readingTime from 'reading-time'
+import RSS from 'rss'
 import type { FrontMatter } from '~/types'
 
 export type SourceWithMatter = {
@@ -65,4 +66,34 @@ export async function getStaticBlogPaths(): Promise<{ params: { slug: string } }
   const files = await getFileList()
   return files
     .map(path => ({ params: { slug: pathToSlug(path) } }))
+}
+
+export async function makeRssFeed(allPosts: FrontMatter[]): Promise<void> {
+  const feed = new RSS({
+    title: 'dfg.rocks',
+    site_url: 'https://dfg.rocks',
+    feed_url: 'https://dfg.rocks/feed.xml',
+    language: 'en',
+  })
+
+  allPosts.map(post => {
+    feed.item({
+      title: post.title,
+      url: `https://dfg.rocks/blog/${post.slug}`,
+      date: post.date,
+      categories: [post.category!].concat(post.tags),
+      description: post.excerpt!,
+      author: 'Daniel F. Gray',
+    })
+  })
+
+  try {
+    await fs.mkdir(path.resolve('./public'))
+  } catch (e) {
+    /* eslint @typescript-eslint/ban-ts-comment: warn */
+    // @ts-ignore
+    if (e.code !== 'EEXIST') throw e
+    // it exists, no problem
+  }
+  await fs.writeFile(path.resolve('./public/feed.xml'), feed.xml({ indent: true }), 'utf8')
 }

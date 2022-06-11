@@ -1,12 +1,9 @@
 import type { NextPage, GetStaticProps } from 'next'
 import { BlogCard, BlogList } from '~/components/BlogCards'
-import { getAllFilesFrontMatter } from '~/lib/mdx'
+import { makeRssFeed, getAllFilesFrontMatter } from '~/lib/mdx'
 import Link from 'next/link'
 import type { FrontMatter } from '~/types'
 import { useCommentStats } from '~/lib/comments'
-import RSS from 'rss'
-import fs from 'fs/promises'
-import path from 'path'
 
 interface StaticProps {
   posts: FrontMatter[]
@@ -35,32 +32,6 @@ export default Home
 /* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/ban-ts-comment */
 export const getStaticProps: GetStaticProps = async (): Promise<{ props: StaticProps }> => {
   const posts = await getAllFilesFrontMatter()
-  const feed = new RSS({
-    title: 'dfg.rocks',
-    site_url: 'https://dfg.rocks',
-    feed_url: 'https://dfg.rocks/feed.xml',
-    language: 'en',
-  })
-
-  posts.map(post => {
-    feed.item({
-      title: post.title,
-      url: `https://dfg.rocks/blog/${post.slug}`,
-      date: post.date,
-      categories: [post.category!],
-      description: post.excerpt!,
-      author: 'Daniel F. Gray',
-    })
-  })
-
-  try {
-    await fs.mkdir(path.resolve('./public'))
-  } catch (e) {
-    // @ts-ignore
-    if (e.code !== 'EEXIST') throw e
-    // it exists, no problem
-  }
-  await fs.writeFile(path.resolve('./public/feed.xml'), feed.xml({ indent: true }), 'utf8')
-
+  void makeRssFeed(posts)
   return { props: { posts: posts.slice(0, 5) } }
 }
