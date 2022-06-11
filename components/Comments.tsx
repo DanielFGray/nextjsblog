@@ -29,6 +29,28 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
       deleteComment.mutate(id)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  function handleSubmit (ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault()
+    try {
+      const formData = new FormData(ev.currentTarget)
+      const values = Object.fromEntries(formData.entries())
+      if (typeof values.comment !== 'string' || typeof slug !== 'string') return
+      newcomment.mutate(
+        {
+          slug,
+          body: values.comment.trim().replace(/\n\n+/, '\n\n'),
+          parent_id: replyId,
+        },
+        {
+          onSuccess() {
+            formref.current?.reset()
+          },
+        },
+      )
+    } catch (e) {
+      console.error(e)
+    }
+  }
   return (
     <div className="mx-auto mt-4 flex max-w-5xl flex-col gap-2 bg-gray-50 p-4 text-gray-900 shadow-lg dark:bg-gray-800 dark:text-gray-200 md:rounded lg:max-w-5xl lg:rounded-lg">
       <h2 id="comment-section" className="text-center text-xl font-bold">
@@ -54,41 +76,7 @@ export function Comments({ comments }: { comments: undefined | Comment[] }) {
         }
 
         return (
-          <form
-            ref={formref}
-            onReset={() => setReplyId(null)}
-            onSubmit={ev => {
-              ev.preventDefault()
-              try {
-                const formData = new FormData(ev.currentTarget)
-                const values = Object.fromEntries(formData.entries())
-                if (
-                  ! (
-                    values.comment &&
-                    typeof values.comment === 'string' &&
-                    slug &&
-                    typeof slug === 'string'
-                  )
-                ) {
-                  return
-                }
-                newcomment.mutate(
-                  {
-                    slug,
-                    body: values.comment.trim().replace(/\n\n+/, '\n\n'),
-                    parent_id: replyId,
-                  },
-                  {
-                    onSuccess() {
-                      formref.current?.reset()
-                    },
-                  },
-                )
-              } catch (e) {
-                console.error(e)
-              }
-            }}
-          >
+          <form ref={formref} onReset={() => setReplyId(null)} onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="comment"
