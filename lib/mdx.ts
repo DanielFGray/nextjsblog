@@ -25,7 +25,7 @@ export function matter(source: string, path: string): { content: string; data: F
       title: data.title as string,
       category: data.category as string,
       tags: data.tags as string[],
-      excerpt: excerpt?.trim(),
+      excerpt: excerpt!.trim(),
       date,
       updated,
       slug: path.replace(/\.mdx?$/, ''),
@@ -81,8 +81,8 @@ export async function makeRssFeed(allPosts: FrontMatter[]): Promise<void> {
       title: post.title,
       url: `https://dfg.rocks/blog/${post.slug}`,
       date: post.date,
-      categories: [post.category!].concat(post.tags),
-      description: post.excerpt!,
+      categories: [post.category].concat(post.tags),
+      description: post.excerpt,
       author: 'Daniel F. Gray',
     })
   })
