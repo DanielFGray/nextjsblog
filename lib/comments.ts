@@ -7,6 +7,7 @@ export type Comment = Readonly<{
   comment_id: number
   user: {
     username: string
+    avatar_url: string
     user_id: string
   }
   body: string
@@ -35,17 +36,6 @@ export function useAuth(): Session | null {
   return session
 }
 
-export function useSignUp() {
-  return useMutation(
-    'signup',
-    async ({ redirectTo, ...creds }: UserCredentials & { redirectTo?: string }) => {
-      const { session, user, error } = await supabase.auth.signUp(creds, { redirectTo })
-      if (error) throw error
-      return { user, session }
-    },
-  )
-}
-
 export function useSignIn() {
   return useMutation(
     'signin',
@@ -56,7 +46,7 @@ export function useSignIn() {
       redirectTo,
       ...creds
     }: UserCredentials & {
-      redirectTo?: string
+      redirectTo?: `/${string}`
       shouldCreateUser?: boolean
       scopes?: string
       captchaToken?: string
@@ -65,7 +55,7 @@ export function useSignIn() {
         scopes,
         captchaToken,
         shouldCreateUser,
-        redirectTo,
+        redirectTo: (process.env.NEXT_PUBLIC_URL ?? '').concat(redirectTo ?? '/'),
       })
       if (error) throw error
       return { user, session }
@@ -123,7 +113,7 @@ export function useCreateComment() {
         const prevState = queryClient.getQueryData<Comment[]>(['comments', variables.slug])
         const session = supabase.auth.session()?.user
         if (! session) throw new Error('not logged in!')
-        const user = { user_id: session.id, username: session.user_metadata.preferred_username, date: new Date() }
+        const user = { user_id: session.id, avatar_url: session.user_metadata.avatar_url, username: session.user_metadata.preferred_username, date: new Date() }
         const newState: Comment = { comment_id: -1, body: variables.body, user, children: [], created_at: new Date().toUTCString() }
         console.log(newState, prevState)
         queryClient.setQueryData<Comment[]>(['comments', variables.slug], old => [newState].concat(old ? old : []))
