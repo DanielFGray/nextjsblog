@@ -1,0 +1,87 @@
+import { ArticleLayout } from '~/components/ArticleLayout'
+
+export const meta = {
+  title: 'Backend FAQs',
+  category: 'computers',
+  tags: ['nodejs', 'programming'],
+  date: '2022-04-13',
+  description: 'A [small] collection of frequently asked questions related to backend development'
+}
+
+export default props => <ArticleLayout meta={meta} {...props} />
+
+## How do I avoid CORS errors and connect my create-react-app frontend to my express API?
+
+Are you getting CORS errors during development when you try to access your backend? This happens when your backend is another port than your frontend, and the browser treats this as cross-origin. If your frontend and backend are same-origin (ie on the same host and port) then browsers do not impose CORS header restrictions or perform preflight requests, simplifying your backend setup and improving user performance.
+
+Assuming your express server runs on port 3001 and CRA is running in 3000, then you can add the `proxy` field in your `package.json`
+
+```json package.json
+{
+  //...
+  "proxy": "http://localhost:3001"
+}
+```
+
+`create-react-app` will then proxy unknown requests to your backend. You can read more about how CRA handles this in [their docs](https://create-react-app.dev/docs/proxying-api-requests-in-development/).
+
+If you're not using `create-react-app` and using `webpack-dev-server` directly, then you would pass the proxy option to `devServer` in your webpack configuration [as described in the webpack docs](https://webpack.js.org/configuration/dev-server/#devserverproxy).
+
+Now make sure all your requests to your backend are using relative URLs rather than including host and port, like so:
+
+```diff
+-fetch('http://localhost:3001/api/endpoint')
++fetch('/api/endpoint')
+```
+
+For production deployments, you would use nginx to serve your react app and proxy API requests to your backend.
+
+```nginx nginx.conf
+server {
+  server_name your-domain.com;
+
+  location /api {
+    proxy_pass http://localhost:3001/;
+  }
+
+  location / {
+    root  /var/www/html/your-domain.com;
+    try_files $uri $uri/ /index.html;
+  }
+}
+```
+
+## JSON Web Tokens or session cookies?
+
+JSON Web Tokens (JWTs) come with several significant drawbacks:
+
+- Since JWTs are stateless, they contain potentially stale data. If you store a user's role ("admin" or "user") in the token, you will need to issue a new token to update that data.
+- JWTs cannot be invalidated or revoked. They are valid until they expire. This makes it significantly difficult to implement basic security features like demoting an administrator, banning a user, or forcing a user to logout, while maintaining a stateless architecture.
+
+The drawbacks of using a session cookie are:
+
+- database (or session storage layer) incurs +1 query for every request to ensure session validity and get fresh data.
+
+Given the limitations and drawbacks of JWTs, I think session cookies are a clear winner.
+
+_I plan on releasing a post about implementing sessions in node.js soon!_
+
+## SQL vs NoSQL?
+
+Most application data is relational. It's much easier to use a relational database as your primary data store and offload pieces to other stores if necessary, than to shoehorn relational data into non-relational databases.
+
+The thing that most people seem to overlook when picking document storage is how to manage deleted references. Say you delete a user, and you want to delete all their associated data. In every document db I've seen you'll have to manage that in your application code, and you'll have to hope you don't leave any dangling references. With a relational db it's usually just a case of having `on delete cascade` on all your foreign keys, and if you miss one the db will yell loudly about maintaining data integrity.
+
+### Should I use an ORM for my SQL database?
+
+Personally, no. I have tried many ORMs and none of them offer even remotely comparable performance to plain SQL queries, and they come with a new set of APIs to learn that are only helpful for the simplest scenarios.
+
+Laurie Voss has a great piece written on why [ORM is an anti-pattern](https://seldo.com/posts/orm_is_an_antipattern) and I would highly encourage you to read it if you are considering using an ORM.
+
+Query builders (like Knex, Kyseley, etc) are also popular, but in my opinion they just add mental overhead. First, you need to know how to write the SQL query you want, and _then_ you have to figure out how to translate that into the format the query builder wants. I always end up spending more time reading query builder docs than I do formulating the query itself.
+
+Then you must consider that ORMs and query builders are platform specific. If you pick up a new language, you'll end up having yet another new API to learn.
+
+SQL is platform agnostic. It doesn't care if you use JavaScript or Python or anything else, you can send SQL queries from any language and have data returned in a format your application can use.
+
+Learn SQL, if you don't rely on ORMs or query builders to abstract away the details of interacting with your database from you, you will write more performant queries and you will have a better understanding of how to debug slower queries.

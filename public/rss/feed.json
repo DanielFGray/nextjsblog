@@ -1,0 +1,240 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Daniel Gray",
+    "home_page_url": "localhost:3000",
+    "feed_url": "localhost:3000/rss/feed.json",
+    "description": "Your blog description",
+    "icon": "localhost:3000/favicon.ico",
+    "author": {
+        "name": "Daniel Gray"
+    },
+    "items": [
+        {
+            "id": "localhost:3000/articles/ez-react-forms",
+            "url": "localhost:3000/articles/ez-react-forms",
+            "title": "Easy React Forms with FormData",
+            "summary": "Storing each form input value in React state can be tedious, but it doesn't have to be that way.",
+            "date_modified": "2022-06-06T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/diy-comments",
+            "url": "localhost:3000/articles/diy-comments",
+            "title": "Build Your Own Comment Section",
+            "summary": "How to build your own threaded comment section using Supabase and Postgres functions",
+            "date_modified": "2022-06-02T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/backend-faq",
+            "url": "localhost:3000/articles/backend-faq",
+            "title": "Backend FAQs",
+            "summary": "A [small] collection of frequently asked questions related to backend development",
+            "date_modified": "2022-04-13T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/react-ssr",
+            "url": "localhost:3000/articles/react-ssr",
+            "title": "Server-Side Rendering with React",
+            "summary": "Server rendering in React is often seen as mystical and esoteric, let's shed some light on it!",
+            "date_modified": "2020-08-11T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/async-await",
+            "url": "localhost:3000/articles/async-await",
+            "title": "Async Programming in Node.js",
+            "summary": "Callbacks, Promises, Async/Await (oh my!)",
+            "date_modified": "2018-06-07T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/babel-webpack",
+            "url": "localhost:3000/articles/babel-webpack",
+            "title": "Setting Up A Modern Webdev Toolchain",
+            "summary": "Modern JavaScript tooling can be a bit of a maze. Babel, Webpack, eslint, TypeScript, PostCSS... Maybe you've heard about them, maybe you don't know why you'd use them, maybe you just want to know how to get started with them. Read on!",
+            "date_modified": "2018-06-06T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/category-intro",
+            "url": "localhost:3000/articles/category-intro",
+            "title": "An Attempt At Explaining Category Theory",
+            "summary": "This is mostly a personal notebook of what I think I have learned. I make no guarantee about the accuracy of anything said here, I would appreciate any corrections or feedback on anything [I've ever] posted.",
+            "date_modified": "2018-01-04T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/fp-compose",
+            "url": "localhost:3000/articles/fp-compose",
+            "title": "Functional Programming: functional composition",
+            "summary": "Creating functions like Lego blocks",
+            "date_modified": "2017-09-16T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/fp-curry-pa",
+            "url": "localhost:3000/articles/fp-curry-pa",
+            "title": "Functional Programming: currying and partial application",
+            "summary": "An explanation of currying and partial application using JavaScript",
+            "date_modified": "2017-08-23T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/my-ssg",
+            "url": "localhost:3000/articles/my-ssg",
+            "title": "How I Made My Own Static-Site Generator",
+            "summary": "I had a fun time making my own static-site generator for a blog, and I thought this could serve as a practical introduction to Functional Reactive Programming (FRP).",
+            "date_modified": "2017-06-18T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/rest-js",
+            "url": "localhost:3000/articles/rest-js",
+            "title": "Creating a REST API in node.js",
+            "summary": "Getting started with making web APIs can be confusing, even overwhelming at first. I'd like to share my process for creating APIs in Node.js.",
+            "date_modified": "2017-04-19T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/why-react",
+            "url": "localhost:3000/articles/why-react",
+            "title": "Why Use React?",
+            "summary": "Introductions are hard, so I'm just gonna jump right into this.",
+            "date_modified": "2017-04-17T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/bash-config",
+            "url": "localhost:3000/articles/bash-config",
+            "title": "Parsing Bash Config Files",
+            "summary": "Many times a script is written that needs extra/persistent configuration from the user. In most languages this is no big deal, you just import your json/yaml/toml parser and you're good to go. The common thing to do for many bash scripts that require configuration is to ask the user to put another actual bash script containing variable declarations in the file:",
+            "date_modified": "2017-02-21T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/why-gitlab",
+            "url": "localhost:3000/articles/why-gitlab",
+            "title": "Why GitLab",
+            "summary": "Occasionally people ask me why I use GitLab instead of GitHub.",
+            "date_modified": "2017-02-16T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/bash-scripting",
+            "url": "localhost:3000/articles/bash-scripting",
+            "title": "Bash Scripting",
+            "date_modified": "2017-02-15T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/vim-guide",
+            "url": "localhost:3000/articles/vim-guide",
+            "title": "Learning Vim",
+            "date_modified": "2017-02-02T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/fp-intro",
+            "url": "localhost:3000/articles/fp-intro",
+            "title": "Functional Programming: a small introduction",
+            "summary": "It seems there's some confusion on why you might use functional programming methods like map/reduce/filter, and so I thought I'd write something to try and explain why I think they're useful and interesting.",
+            "date_modified": "2017-01-10T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/beginning-drums",
+            "url": "localhost:3000/articles/beginning-drums",
+            "title": "Beginning Drums",
+            "date_modified": "2016-10-26T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/kill-dm",
+            "url": "localhost:3000/articles/kill-dm",
+            "title": "Killing the Display Manager",
+            "summary": "Display managers like LightDM and SDDM come standard with many Linux distros, and I personally find them useless. I'd like to share with you how to get rid of them and gain a bit of control over how X is launched, and take back a few precious megabytes of RAM.",
+            "date_modified": "2016-09-29T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/rudimental-permutations",
+            "url": "localhost:3000/articles/rudimental-permutations",
+            "title": "On permutations of rudiments",
+            "summary": "This post is still a work in progress, so bare with me please. If you spot any errors or have something you want to add, feel free to leave a comment below.",
+            "date_modified": "2015-12-14T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/vimrc-guide",
+            "url": "localhost:3000/articles/vimrc-guide",
+            "title": "Vim beginner's customization guide",
+            "summary": "This article is for those who've been using Vim for a little while and have started to grasp modal editing and the powers of Vim, and now want to start customizing it. If you're completely new to Vim, I have another post describing some of the basic of learning Vim [here](/computers/vim-guide) but there are dozens of them on the internet, and Vim ships with `vimtutor` as well which is a great place to start.",
+            "date_modified": "2015-08-02T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/fzmp",
+            "url": "localhost:3000/articles/fzmp",
+            "title": "Fuzzy searching for MPD in Bash",
+            "summary": "I recently came across fzf, which is an interactive filter for your shell, and wanted to make a script that filtered through and played my music library",
+            "date_modified": "2014-11-02T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        },
+        {
+            "id": "localhost:3000/articles/debian-backporting",
+            "url": "localhost:3000/articles/debian-backporting",
+            "title": "Backporting packages in Debian",
+            "summary": "Are you anxious for a new version of a particular package, and don't want to wait for someone else to submit it to backports? After a few hours of reading docs and testing this out myself I feel like I've gotten a good grasp on this, so I'd like to share what's been working for me.",
+            "date_modified": "2013-10-22T00:00:00.000Z",
+            "author": {
+                "name": "Daniel Gray"
+            }
+        }
+    ]
+}

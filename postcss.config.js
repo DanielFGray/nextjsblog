@@ -1,8 +1,9 @@
-/* eslint-disable quote-props */
 module.exports = {
   plugins: {
-    'autoprefixer': {},
-    'tailwindcss/nesting': {},
-    'tailwindcss': {},
+    tailwindcss: {},
+    'postcss-focus-visible': {
+      replaceWith: '[data-focus-visible-added]',
+    },
+    autoprefixer: {},
   },
 }

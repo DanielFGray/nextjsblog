@@ -1,0 +1,54 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import './prism.css';
+@import 'tailwindcss/utilities';
+
+.ch-spotlight.horizontal {
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.ch-spotlight.horizontal .ch-spotlight-tabs {
+  flex-flow: row;
+  padding: 0;
+  margin: 0;
+}
+
+.ch-spotlight.horizontal .ch-spotlight-tab {
+  margin: 0;
+  padding: 0;
+}
+
+.ch-frame-buttons {
+  display: none;
+}
+
+[data-selected=true].ch-scrollycoding-step-content,
+[data-selected=true].ch-spotlight-tab {
+  @apply border-secondary-500 dark:text-primary-50 text-primary-900;
+}
+
+.ch-scrollycoding-step-content:not([data-selected=true]),
+.ch-spotlight-tab:not([data-selected=true]) {
+  @apply cursor-pointer border-transparent hover:border-secondary-500 bg-white dark:bg-primary-800;
+}
+
+.ch-spotlight.horizontal .ch-spotlight-tabs p {
+  padding: 0.5em 1em;
+  margin: 0;
+}
+
+.ch-spotlight.horizontal .ch-code,
+.ch-spotlight.horizontal .ch-spotlight-sticker {
+  width: 100%
+}
+
+.ch-scrollycoding-sticker,
+.ch-codegroup {
+  height: 100%;
+}
+
+.ch-scrollycoding-content {
+  @apply space-y-2;
+}
