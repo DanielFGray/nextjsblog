@@ -1,9 +1,3 @@
-import clsx from 'clsx'
+import { classed } from '@tw-classed/react';
 
-export function Prose({ children, className }) {
-  return (
-    <div className={clsx(className, 'prose max-w-7xl dark:prose-invert')}>
-      {children}
-    </div>
-  )
-}
+export const Prose = classed('div', 'prose max-w-7xl dark:prose-invert')

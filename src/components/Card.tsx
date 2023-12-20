@@ -1,4 +1,5 @@
 import Link, { LinkProps } from 'next/link'
+import { classed } from '@tw-classed/react'
 import clsx from 'clsx'
 
 function ChevronRightIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -14,21 +15,7 @@ function ChevronRightIcon(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-export function Card({
-  as: Component = 'div',
-  className = '',
-  children,
-}: {
-  as?: keyof JSX.IntrinsicElements | ((p: any) => JSX.Element)
-  className?: string
-  children: React.ReactNode
-}) {
-  return (
-    <Component className={clsx(className, 'group relative flex flex-col items-start')}>
-      {children}
-    </Component>
-  )
-}
+export const Card = classed('div', 'group relative flex flex-col items-start')
 
 Card.Link = function CardLink({ children, ...props }: LinkProps & { children: React.ReactNode }) {
   return (
@@ -42,7 +29,11 @@ Card.Link = function CardLink({ children, ...props }: LinkProps & { children: Re
   )
 }
 
-Card.Title = function CardTitle({ as: Component = 'h2', href, children }: {
+Card.Title = function CardTitle({
+  as: Component = 'h2',
+  href,
+  children,
+}: {
   as?: keyof JSX.IntrinsicElements | ((p: any) => JSX.Element)
   href?: LinkProps['href']
   children: React.ReactNode
@@ -62,7 +53,12 @@ Card.Description = function CardDescription({
   className?: string
 }) {
   return (
-    <p className={clsx('relative z-10 mt-2 text-sm text-primary-600 dark:text-primary-400', className)}>
+    <p
+      className={clsx(
+        'relative z-10 mt-2 text-sm text-primary-600 dark:text-primary-400',
+        className,
+      )}
+    >
       {children}
     </p>
   )

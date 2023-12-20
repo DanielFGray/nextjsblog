@@ -1,18 +1,10 @@
 import Link from 'next/link'
 import { navlinks } from '~/navlinks'
+import { classed } from "@tw-classed/react";
 
 import { Container } from '~/components/Container'
 
-function NavLink({ href, children }) {
-  return (
-    <Link
-      href={href}
-      className="transition hover:text-secondary-500 dark:hover:text-secondary-400"
-    >
-      {children}
-    </Link>
-  )
-}
+const NavLink = classed(Link, 'transition hover:text-secondary-500 dark:hover:text-secondary-400')
 
 export function Footer() {
   return (
